@@ -3,14 +3,6 @@
 #include <deque>
 #include <utility>
 
-// --- MISSING FROM api.hpp (declarations only; see notes) -------------------
-// battlecode.common.UnitType carries stat fields that the C++ shim's
-// `enum class UnitType` cannot hold, so `rc.getType().attackStrength` etc.
-// become free lookup functions over UnitType.
-int attackStrength(UnitType t);
-int aoeAttackStrength(UnitType t);
-// --------------------------------------------------------------------------
-
 namespace philip_06 {
 namespace roles {
 

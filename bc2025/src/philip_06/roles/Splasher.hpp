@@ -2,16 +2,6 @@
 #include "api.hpp"
 #include <unordered_set>
 
-// --- MISSING FROM api.hpp (declarations only; see notes) -------------------
-// battlecode.common.UnitType carries stat fields that the C++ shim's
-// `enum class UnitType` cannot hold. `rc.getType().paintCapacity` etc. are
-// therefore expressed as free lookup functions over UnitType.
-int paintCapacity(UnitType t);
-int paintPerTurn(UnitType t);
-// battlecode.common.RobotController.canSenseRobotAtLocation is not declared in
-// api.hpp's RobotController.
-bool canSenseRobotAtLocation(RobotController& rc, MapLocation loc);
-// --------------------------------------------------------------------------
 
 namespace philip_06 {
 namespace roles {

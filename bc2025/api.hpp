@@ -65,6 +65,48 @@ inline UnitType getNextLevel(UnitType t) {
 }
 inline bool canUpgradeType(UnitType t) { return (int)t >= 3 && (int)t % 3 != 2; }
 
+// battlecode.common.UnitType carries these as per-constant instance fields.
+// An `enum class` cannot, so they are exposed as constexpr lookups; values are
+// taken verbatim from the engine's UnitType enum declaration.
+inline constexpr int paintCapacity(UnitType t) {
+    switch (t) {
+        case UnitType::SOLDIER: return 200;
+        case UnitType::SPLASHER: return 300;
+        case UnitType::MOPPER: return 100;
+        default: return 1000;  // every tower
+    }
+}
+inline constexpr int paintPerTurn(UnitType t) {
+    switch (t) {
+        case UnitType::LEVEL_ONE_PAINT_TOWER: return 5;
+        case UnitType::LEVEL_TWO_PAINT_TOWER: return 10;
+        case UnitType::LEVEL_THREE_PAINT_TOWER: return 15;
+        default: return 0;
+    }
+}
+inline constexpr int attackStrength(UnitType t) {
+    switch (t) {
+        case UnitType::SOLDIER: return 50;
+        case UnitType::SPLASHER: return -1;
+        case UnitType::MOPPER: return -1;
+        case UnitType::LEVEL_ONE_DEFENSE_TOWER: return 40;
+        case UnitType::LEVEL_TWO_DEFENSE_TOWER: return 50;
+        case UnitType::LEVEL_THREE_DEFENSE_TOWER: return 60;
+        default: return 20;  // paint and money towers
+    }
+}
+inline constexpr int aoeAttackStrength(UnitType t) {
+    switch (t) {
+        case UnitType::SOLDIER: return -1;
+        case UnitType::SPLASHER: return 100;
+        case UnitType::MOPPER: return -1;
+        case UnitType::LEVEL_ONE_DEFENSE_TOWER: return 20;
+        case UnitType::LEVEL_TWO_DEFENSE_TOWER: return 25;
+        case UnitType::LEVEL_THREE_DEFENSE_TOWER: return 30;
+        default: return 10;  // paint and money towers
+    }
+}
+
 enum class GameActionExceptionType {
     INTERNAL_ERROR, NOT_ENOUGH_RESOURCE, CANT_MOVE_THERE, IS_NOT_READY,
     CANT_SENSE_THAT, OUT_OF_RANGE, CANT_DO_THAT, NO_ROBOT_THERE,
@@ -245,6 +287,10 @@ public:
     bool isMovementReady();
     bool onTheMap(MapLocation loc);
     bool canSenseLocation(MapLocation loc);
+    bool canSenseRobotAtLocation(MapLocation loc);
+    bool canSenseRobot(int id);
+    RobotInfo senseRobot(int id);
+    bool isLocationOccupied(MapLocation loc);
     MapInfo senseMapInfo(MapLocation loc);
     vector<MapInfo> senseNearbyMapInfos();
     vector<MapInfo> senseNearbyMapInfos(MapLocation center);

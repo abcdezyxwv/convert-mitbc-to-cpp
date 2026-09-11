@@ -12,16 +12,6 @@ MapLocation Pathfinding::destination; // Java: = null
 int Pathfinding::TurnsWasted = 0;
 
 // api.hpp's UnitType is a plain enum class without fields; Java's
-// UnitType.paintCapacity values (bc2025 engine, UnitType ctor arg 6):
-// SOLDIER=200, SPLASHER=300, MOPPER=100, every tower=1000.
-static int paintCapacityOf(UnitType t) {
-    switch (t) {
-        case UnitType::SOLDIER: return 200;
-        case UnitType::SPLASHER: return 300;
-        case UnitType::MOPPER: return 100;
-        default: return 1000;
-    }
-}
 
 void Pathfinding::setDest(RobotController rc, MapLocation loc) {
     if (loc.isNull()) {
@@ -129,12 +119,12 @@ void Pathfinding::retreat(RobotController rc) {
             rc.canSenseLocation(utils::Constants::closestTower)) {
             if (rc.canTransferPaint(
                     utils::Constants::closestTower,
-                    -std::min(paintCapacityOf(rc.getType()) - rc.getPaint(),
+                    -std::min(paintCapacity(rc.getType()) - rc.getPaint(),
                               rc.senseRobotAtLocation(utils::Constants::closestTower).paintAmount -
                                   utils::Settings::minTowerPaintToTransfer)))
                 rc.transferPaint(
                     utils::Constants::closestTower,
-                    -std::min(paintCapacityOf(rc.getType()) - rc.getPaint(),
+                    -std::min(paintCapacity(rc.getType()) - rc.getPaint(),
                               rc.senseRobotAtLocation(utils::Constants::closestTower).paintAmount -
                                   utils::Settings::minTowerPaintToTransfer));
         }

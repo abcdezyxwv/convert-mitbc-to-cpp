@@ -1019,7 +1019,7 @@ bool Mopper::cleanUpSomePaint(RobotController rc, MapLocation loc) {
     MapInfo closest;
     bool closestNull = true;  // Java: MapInfo closest = null
     for (const MapInfo& mi : nearby) {
-        if (!isEnemy(mi.getPaint()) || !rc.canSenseLocation(mi.getMapLocation()) ||
+        if (!isEnemy(mi.getPaint()) || !rc.canSenseRobotAtLocation(mi.getMapLocation()) ||
             rc.senseRobotAtLocation(mi.getMapLocation()).location.isNull() ||
             rc.senseRobotAtLocation(mi.getMapLocation()).getTeam() == rc.getTeam())
             continue;

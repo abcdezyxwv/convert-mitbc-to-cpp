@@ -49,7 +49,7 @@ void Soldier::retreat(RobotController rc) {
         roles::Mopper::moveTowardsMindfully(rc, bestOpt);
         return;
     }
-    int transfer = paintCapacityOf(rc.getType()) - rc.getPaint();
+    int transfer = paintCapacity(rc.getType()) - rc.getPaint();
     if (rc.canSenseLocation(bestOpt) && !rc.senseRobotAtLocation(bestOpt).location.isNull()) {
         transfer = std::min(transfer, rc.senseRobotAtLocation(bestOpt).getPaintAmount());
         // rc.setIndicatorString(std::to_string(transfer));
@@ -135,7 +135,7 @@ void Soldier::run(RobotController rc) {
             paintTowers.erase(loc);
             continue;
         }
-        if (tower.getPaintAmount() >= 150 || paintPerTurnOf(tower.getType()) > 0)
+        if (tower.getPaintAmount() >= 150 || paintPerTurn(tower.getType()) > 0)
             paintTowers.insert(loc);
         else
             paintTowers.erase(loc);
@@ -184,7 +184,7 @@ void Soldier::run(RobotController rc) {
     if (!RobotPlayer::rush) {
         // See if it needs to coordinate attack
         for (const MapLocation& ruin : ruins) {
-            if (canSenseRobotAtLocation(rc, ruin)) {
+            if (rc.canSenseRobotAtLocation(ruin)) {
                 RobotInfo ri = rc.senseRobotAtLocation(ruin);
                 if (ri.getTeam() != rc.getTeam()) {
                     RobotPlayer::rush = true;
@@ -193,8 +193,8 @@ void Soldier::run(RobotController rc) {
                     // See if it needs to be a messenger instead
                     // Calculate how many turns it can live
                     int power = rc.getPaint() / 10;
-                    power = std::min(power, rc.getHealth() / (aoeAttackStrengthOf(ri.getType()) +
-                                                              attackStrengthOf(ri.getType())));
+                    power = std::min(power, rc.getHealth() / (aoeAttackStrength(ri.getType()) +
+                                                              attackStrength(ri.getType())));
                     if (power < 3) {
                         // meaningless attack
                         messenger = true;

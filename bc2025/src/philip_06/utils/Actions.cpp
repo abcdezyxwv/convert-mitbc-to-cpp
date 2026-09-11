@@ -119,9 +119,9 @@ void Actions::getPaint(RobotController rc) {
         // location is MapLocation::NONE, used here as the null proxy.
         if (bot.getLocation().isNull()) continue;
         if (rc.canTransferPaint(
-                loc, -std::min(Constants::paintCapacity(rc.getType()) - rc.getPaint(),
+                loc, -std::min(paintCapacity(rc.getType()) - rc.getPaint(),
                                bot.paintAmount)))
-            rc.transferPaint(loc, -std::min(Constants::paintCapacity(rc.getType()) - rc.getPaint(),
+            rc.transferPaint(loc, -std::min(paintCapacity(rc.getType()) - rc.getPaint(),
                                             bot.paintAmount));
     }
 }

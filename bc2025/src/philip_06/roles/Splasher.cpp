@@ -226,7 +226,7 @@ Direction Splasher::shouldMove(RobotController rc, Direction dir) {
     if (!rc.canMove(dir)) return Direction::all[Direction::CENTER];  // Java: null
     vector<MapLocation> nearby = rc.senseNearbyRuins(16);
     for (const MapLocation& loc : nearby) {
-        if (!canSenseRobotAtLocation(rc, loc)) continue;
+        if (!rc.canSenseRobotAtLocation(loc)) continue;
         RobotInfo tower = rc.senseRobotAtLocation(loc);
         if (tower.getTeam() == rc.getTeam()) continue;
         dir = rc.getLocation().directionTo(loc).opposite();

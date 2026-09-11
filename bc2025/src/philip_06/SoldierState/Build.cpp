@@ -41,10 +41,8 @@ void Build::run(RobotController rc) {
         Attack::run(rc);
         return;
     }
-    // api.hpp has no canSenseRobotAtLocation; a default RobotInfo's location is
-    // MapLocation::NONE, used here as the "no robot there" proxy.
     if ((!halfBuilt.isNull() && rc.canSenseLocation(halfBuilt) &&
-         !rc.senseRobotAtLocation(halfBuilt).getLocation().isNull()) ||
+         rc.canSenseRobotAtLocation(halfBuilt)) ||
         (!halfBuilt.isNull() && !toFinish.empty() && halfBuilt.x == toFinish.back().x &&
          halfBuilt.y == toFinish.back().y)) {
         //std::cout << "Byebye halfbuilt" << '\n';
