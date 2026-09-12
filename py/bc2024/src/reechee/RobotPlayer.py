@@ -2,7 +2,7 @@
 import traceback
 
 from api import *
-from Pathfind import Pathfind
+import Pathfind
 
 
 class RobotPlayer:
@@ -156,7 +156,7 @@ class RobotPlayer:
                                     if rc.hasFlag():
                                         if rc.canDropFlag(RobotPlayer.flagTargetLocation):
                                             rc.dropFlag(RobotPlayer.flagTargetLocation)
-                                        Pathfind.moveTowards(rc, RobotPlayer.flagTargetLocation)
+                                        Pathfind.Pathfind.moveTowards(rc, RobotPlayer.flagTargetLocation)
                                         if rc.canDropFlag(RobotPlayer.flagTargetLocation):
                                             rc.dropFlag(RobotPlayer.flagTargetLocation)
                             # In the main phase, build traps around the spawn zone
@@ -171,7 +171,7 @@ class RobotPlayer:
                                     RobotPlayer.currentOscillationDirection += 1
                                     if RobotPlayer.currentOscillationDirection == 8:
                                         RobotPlayer.currentOscillationDirection = 0
-                                Pathfind.moveTowardsV1(rc, RobotPlayer.teamFlagLocation.add(
+                                Pathfind.Pathfind.moveTowardsV1(rc, RobotPlayer.teamFlagLocation.add(
                                     RobotPlayer.oscillationDirections[RobotPlayer.currentOscillationDirection]))
                                 # Place traps on rounds where _  for even traps
                                 if RobotPlayer.roundNum % RobotPlayer.numDefence == RobotPlayer.id:
@@ -181,7 +181,7 @@ class RobotPlayer:
                     if RobotPlayer.role == 1:
                         # In the setup phase, explore to gather crumbs
                         if RobotPlayer.roundNum < 150:
-                            Pathfind.explore(rc)
+                            Pathfind.Pathfind.explore(rc)
                             Clock.doYield()
 
             except GameActionException:

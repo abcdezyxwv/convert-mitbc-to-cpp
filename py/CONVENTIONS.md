@@ -13,8 +13,12 @@ py/bcYYYY/src/<bot>/<Pkg>/<Cls>.py  # one .py per .java, same relative path
 ```
 
 Run/check with `python3 -m py_compile` (root `make py` does all of them).
-Imports are always `from api import *` plus `from <Pkg>.<Cls> import <Cls>` /
-`from <Pkg> import <Cls>` matching whatever the Java file imported. Java
+Imports are always `from api import *` plus module-form imports of other bot
+files: `import <Mod>` / `from <Pkg> import <Mod>`, referenced as
+`<Mod>.<Cls>.member` (e.g. `from roles import Mopper` then
+`Mopper.Mopper.moveTowards`). `from <Pkg>.<Mod> import <Cls>` is used only for
+leaf modules that can never be part of an import cycle (Java resolves class
+references lazily; Python class-form imports crash on cycles). Java
 `package x.y;` becomes a directory; no `__init__.py` needed (namespace
 packages) — `sys.path` is assumed to contain `py/bcYYYY` and `py/bcYYYY/src`.
 

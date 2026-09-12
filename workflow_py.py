@@ -112,11 +112,11 @@ async def main():
     thunks = []
     for files, year, bot, srcroot, label in BATCHES:
         phase = "port-" + year
-        thunks.append((lambda f=files, y=year, b=bot, s=srcroot, p=phase, l=label:
-                       agent(prompt(f, y, b, s), phase=p, schema=SCHEMA, label=l,
-                             vm_mode="shared"))())  # shared: outputs land directly in this working tree
-    thunks.append(agent(GEN_PROMPT, phase="generators", schema=SCHEMA,
-                        label="generators", vm_mode="shared"))
+        thunks.append(lambda f=files, y=year, b=bot, s=srcroot, p=phase, l=label:
+                      agent(prompt(f, y, b, s), phase=p, schema=SCHEMA, label=l,
+                            vm_mode="shared"))  # shared: outputs land directly in this working tree
+    thunks.append(lambda: agent(GEN_PROMPT, phase="generators", schema=SCHEMA,
+                                label="generators", vm_mode="shared"))
     results = await parallel(thunks)
     for (files, year, bot, _s, label), res in zip(BATCHES, results):
         log(f"{label}: {res['files']} notes={res['notes'][:200]}")
